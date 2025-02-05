@@ -10,17 +10,24 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
+        self.open_base_url(wd)
+        self.login(wd)
+        self.add_contact(wd)
+        self.go_home_page(wd)
+
+    def open_base_url(self, wd):
         wd.get("https://localhost/addressbook/")
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//input[@value='Login']").click()
+
+    def go_home_page(self, wd):
+        wd.find_element_by_link_text("home").click()
+
+    def add_contact(self, wd):
+        # init contact creation
         wd.find_element_by_link_text("add new").click()
+        # fill contact form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys("My name")
+        wd.find_element_by_name("firstname").send_keys("First_name")
         wd.find_element_by_name("middlename").clear()
         wd.find_element_by_name("middlename").send_keys("Middle_name")
         wd.find_element_by_name("lastname").clear()
@@ -39,9 +46,20 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("2002")
+        # submit contact creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
-        wd.find_element_by_link_text("home").click()
-    
+
+    def login(self, wd):
+        wd.find_element_by_name("user").click()
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("pass").clear()
+        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_xpath("//input[@value='Login']").click()
+
+    def logout(self, wd):
+        wd.find_element_by_link_text("Logout").click()
+
     def tearDown(self):
         self.wd.quit()
 
