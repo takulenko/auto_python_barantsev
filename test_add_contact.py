@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import unittest
 from contact import Contact
+import os
 
 class TestAddContact(unittest.TestCase):
     def setUp(self):
@@ -12,11 +13,11 @@ class TestAddContact(unittest.TestCase):
     def test_add_contact(self):
         wd = self.wd
         self.open_base_url(wd)
-        self.login(wd)
+        self.login(wd, "admin", "secret")
         self.add_contact(wd, Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nick",
-                    photo="photo.jpg", title="t", company="c", address="a", phonehome="123", mobile="11", phonework="11",
-                    fax="11", email="contact@mail.ru", email2="22", email3="33", homepage="hp",
-                    bday="1", bmonth="February", byear="2002", aday="26", amonth="November", ayear="2010"))
+                    photo="C:/photo.jpg", title="t", company="c", address="a", phonehome="123", mobile="11", phonework="12",
+                    fax="13", email="contact@mail.ru", email2="22", email3="33", homepage="hp",
+                    bday="10", bmonth="March", byear="1111", aday="20", amonth="May", ayear="2222"))
         self.go_home_page(wd)
 
     def open_base_url(self, wd):
@@ -42,6 +43,8 @@ class TestAddContact(unittest.TestCase):
 
 #        wd.find_element_by_name("photo").clear()
 #        wd.find_element_by_name("photo").send_keys(contact.photo)
+#        wd.find_element_by_name("photo")._upload(contact.photo)
+
         wd.find_element_by_name("title").clear()
         wd.find_element_by_name("title").send_keys(contact.title)
 
@@ -78,33 +81,27 @@ class TestAddContact(unittest.TestCase):
 
 
         Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
-        wd.find_element_by_xpath("//option[@value='1']").click()
         wd.find_element_by_name("bmonth").click()
         Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
-        wd.find_element_by_xpath("//option[@value='February']").click()
         wd.find_element_by_name("byear").click()
-        wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(contact.byear)
 
         wd.find_element_by_name("aday").click()
         Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
-        wd.find_element_by_xpath("//div[@id='content']/form/select[3]/option[28]").click()
         wd.find_element_by_name("amonth").click()
         Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
-        wd.find_element_by_xpath("//div[@id='content']/form/select[4]/option[12]").click()
         wd.find_element_by_name("ayear").click()
-        wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.ayear)
 
         # submit contact creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
 
-    def login(self, wd):
+    def login(self, wd, username, password):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def logout(self, wd):
