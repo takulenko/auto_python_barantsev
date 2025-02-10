@@ -10,21 +10,23 @@ class TestAddContact(unittest.TestCase):
         self.wd.implicitly_wait(30)
 
     def test_add_contact(self):
-        wd = self.wd
-        self.login(wd, "admin", "secret")
-        self.add_contact(wd, Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nick",
+        self.login("admin", "secret")
+        self.add_contact(Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nick",
                     photo="C:/photo.jpg", title="t", company="c", address="a", phonehome="123", mobile="11", phonework="12",
                     fax="13", email="contact@mail.ru", email2="22", email3="33", homepage="hp",
                     bday="10", bmonth="March", byear="1111", aday="20", amonth="May", ayear="2222"))
-        self.logout(wd)
+        self.logout()
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("https://localhost/addressbook/")
 
-    def go_home_page(self, wd):
+    def go_home_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("home").click()
 
-    def add_contact(self, wd, contact):
+    def add_contact(self, contact):
+        wd = self.wd
         # init contact creation
         wd.find_element_by_link_text("add new").click()
 
@@ -93,10 +95,11 @@ class TestAddContact(unittest.TestCase):
 
         # submit contact creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
-        self.go_home_page(wd)
+        self.go_home_page()
 
-    def login(self, wd, username, password):
-        self.open_home_page(wd)
+    def login(self, username, password):
+        wd = self.wd
+        self.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -104,7 +107,8 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
     def tearDown(self):
