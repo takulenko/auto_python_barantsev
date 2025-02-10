@@ -3,7 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import unittest
 from contact import Contact
-import os
 
 class TestAddContact(unittest.TestCase):
     def setUp(self):
@@ -12,15 +11,14 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        self.open_base_url(wd)
         self.login(wd, "admin", "secret")
         self.add_contact(wd, Contact(firstname="First_name", middlename="Middle_name", lastname="Last_name", nickname="Nick",
                     photo="C:/photo.jpg", title="t", company="c", address="a", phonehome="123", mobile="11", phonework="12",
                     fax="13", email="contact@mail.ru", email2="22", email3="33", homepage="hp",
                     bday="10", bmonth="March", byear="1111", aday="20", amonth="May", ayear="2222"))
-        self.go_home_page(wd)
+        self.logout(wd)
 
-    def open_base_url(self, wd):
+    def open_home_page(self, wd):
         wd.get("https://localhost/addressbook/")
 
     def go_home_page(self, wd):
@@ -95,8 +93,10 @@ class TestAddContact(unittest.TestCase):
 
         # submit contact creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[20]").click()
+        self.go_home_page(wd)
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
