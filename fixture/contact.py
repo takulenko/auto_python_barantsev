@@ -7,6 +7,7 @@ class ContactHelper:
 
     def add_contact(self, contact):
         wd = self.app.wd
+        self.app.open_home_page()
         # init contact creation
         wd.find_element_by_link_text("add new").click()
 
@@ -18,6 +19,7 @@ class ContactHelper:
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
+        self.app.open_home_page()
         # click pencil for first contact
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
 
@@ -29,6 +31,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
+        self.app.open_home_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
@@ -45,9 +48,10 @@ class ContactHelper:
         self.change_field_value("title", contact.title)
         self.change_field_value("company", contact.company)
         self.change_field_value("address", contact.address)
-        self.change_field_value("phonehome", contact.phonehome)
+        self.change_field_value("home", contact.home)
         self.change_field_value("mobile", contact.mobile)
-        self.change_field_value("phonework", contact.phonework)
+        self.change_field_value("work", contact.work)
+        self.change_field_value("fax", contact.fax)
         self.change_field_value("email", contact.email)
         self.change_field_value("email2", contact.email2)
         self.change_field_value("email3", contact.email3)
@@ -63,7 +67,7 @@ class ContactHelper:
         wd = self.app.wd
         if text is not None:
             wd.find_element_by_name(field_name).click()
-            wd.find_element_by_name(field_name).clear()
+        #    wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
 
