@@ -67,7 +67,8 @@ class ContactHelper:
         wd = self.app.wd
         if text is not None:
             wd.find_element_by_name(field_name).click()
-        #    wd.find_element_by_name(field_name).clear()
+            if field_name not in ("bday", "bmonth", "aday", "amonth"):
+                wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
     def count(self):
