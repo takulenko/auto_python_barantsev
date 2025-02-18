@@ -1,6 +1,8 @@
 from model.contact import Contact
 
 def test_modify_firstname_contact(app):
+    if app.contact.count() == 0:
+        app.contact.add_contact(Contact(firstname="contact for modify only firstname"))
     app.contact.edit_first_contact(Contact(firstname="Only First_name modify"))
 
 

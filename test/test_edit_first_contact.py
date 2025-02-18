@@ -1,6 +1,8 @@
 from model.contact import Contact
 
 def test_edit_first_contact(app):
+    if app.contact.count() == 0:
+        app.contact.add_contact(Contact(firstname="contact for edit"))
     app.contact.edit_first_contact(Contact(firstname="First_name Edited", middlename="Middle_name Edited",
                                            lastname="Last_name Edited", nickname="Nick Edited",
                                            title="t Edited", company="c Edited", address="a Edited",
