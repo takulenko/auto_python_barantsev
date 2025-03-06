@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
 from string import punctuation
-
 from model.group import Group
 import pytest
 import random
