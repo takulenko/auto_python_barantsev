@@ -1,6 +1,4 @@
 import json
-from tkinter.font import names
-
 import jsonpickle
 import pytest
 import os.path
