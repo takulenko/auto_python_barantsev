@@ -1,13 +1,13 @@
 from model.contact import Contact
-from random import randrange
+import random
 
-def test_edit_contact_by_index(app):
+def test_edit_contact_by_index(app, db, check_ui):
     # if contacts list is empty
-    if app.contact.count() == 0:
+    if len(db.get_contact_list()) == 0:
         app.contact.add_contact(Contact(firstname="contact for edit"))
 
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
+    old_contacts = db.get_contact_list()
+    contact_random = random.choice(old_contacts)
     contact = Contact(firstname="First_name Edited", middlename="Middle_name Edited",
                       lastname="Last_name Edited", nickname="Nick Edited",
                       title="t Edited", company="c Edited", address="a Edited",
@@ -16,11 +16,12 @@ def test_edit_contact_by_index(app):
                       email3="33 Edited", homepage="hp Edited",
                       bday="11", bmonth="March", byear="1990",
                       aday="22", amonth="May", ayear="1999")
-    contact.id = old_contacts[index].id
-
-    app.contact.edit_contact_by_index(index, contact)
+    app.contact.edit_contact_by_id(contact_random.id, contact)
     assert len(old_contacts) == app.contact.count()
 
-    new_contacts = app.contact.get_contact_list()
-    old_contacts[index] = contact
-    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    new_contacts = db.get_contact_list()
+    old_contacts[old_contacts.index(contact_random)] = contact
+    assert old_contacts == new_contacts
+
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
