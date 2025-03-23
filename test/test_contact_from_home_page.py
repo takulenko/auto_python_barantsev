@@ -2,6 +2,22 @@ from model.contact import Contact
 from random import randrange
 import re
 
+# compare contact on home page and db
+def test_contacts_on_home_page_and_db(app, db):
+    # if contacts list is empty
+    if app.contact.count() == 0:
+        app.contact.add_contact(Contact(lastname="Ak-ul", firstname="Tata Rastata", address="Addr H: 1",
+                                        email="em@m.ru", email2="em2@m.ru", email3="em3@m.ru",
+                                        home="home-1231", mobile="(mobile) 11", work="work 12111"))
+
+    contacts_homepage = app.contact.get_contact_list()
+    contacts_db = db.get_contact_list()
+
+    assert sorted(contacts_homepage, key=Contact.id_or_max) == sorted(contacts_db, key=Contact.id_or_max)
+
+
+'''
+# compare contact by index on home page and edit page
 def test_contact_on_home_page_by_index(app):
     # if contacts list is empty
     if app.contact.count() == 0:
@@ -33,3 +49,4 @@ def merge_phones_like_on_home_page(contact):
 def merge_emails_like_on_home_page(contact):
     return "\n".join(filter(lambda x: x != "" and x is not None,
                                    [contact.email, contact.email2, contact.email3]))
+'''
