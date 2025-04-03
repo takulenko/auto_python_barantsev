@@ -10,11 +10,11 @@ def test_contact_on_home_page_and_db(app, db):
                                         email="em@m.ru", email2="em2@m.ru", email3="em3@m.ru",
                                         home="home-1231", mobile="(mobile) 11", work="work 12111"))
 
-    contacts_list_from_homepage = app.contact.get_contact_list()
-    contacts_list_from_db = db.get_contact_list()
+    contacts_list_from_homepage = sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
+    contacts_list_from_db = sorted(db.get_contact_list(), key=Contact.id_or_max)
 
     for contact_from_homepage in contacts_list_from_homepage:
-        index =  contacts_list_from_db.index(contact_from_homepage)
+        index =  contacts_list_from_homepage.index(contact_from_homepage)
         contact_from_db = contacts_list_from_db[index]
 
         assert contact_from_homepage == contact_from_db
